@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int n, bomb = 0, vec[1001], mutari;
+vector<int> m;
+    
+int main()
+{
+    ifstream cin("bomboane.in");
+    ofstream cout("bomboane.out");
+    
+    cin >> n;
+    
+    for(int i = 1; i <= n; i ++){
+        cin >> vec[i];
+        bomb += vec[i];
+    }
+    
+    if(bomb % n != 0){
+        cout << -1;
+        return 0;
+    }
+    
+    bomb = bomb / n;
+    
+    for(int i = 1; i <= n;){
+        if(vec[i] != bomb){
+            int maxi = 0, imaxi;
+            int mini = 1001, imini;
+            
+            for(int j = 1; j <= n; j ++){
+                if(maxi < vec[j] and vec[j] != bomb){
+                    maxi = vec[j];
+                    imaxi = j;
+                }
+                
+                if(mini > vec[j] and vec[j] != bomb){
+                    mini = vec[j];
+                    imini = j;
+                }
+            }
+            
+            int dif = (abs)(bomb - mini);
+            vec[imaxi] -= dif;
+            vec[imini] += dif;
+            
+            m.push_back(imaxi); m.push_back(imini); m.push_back(dif);
+            mutari ++;
+        }
+        else{
+            i ++;
+        }
+    }
+    
+    cout << mutari << '\n';
+    
+    int r = 0;
+    for(auto& i : m){
+        if(r == 3){
+            r = 0;
+            cout << '\n';
+        }
+        
+        cout << i << ' ';
+        r ++;
+    }
+   
+    return 0;
+}
